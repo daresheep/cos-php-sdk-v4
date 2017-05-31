@@ -1,5 +1,5 @@
 {
-  "name": "daresheep/cos-php-sdk-V4",
+  "name": "daresheep/cos-php-sdk-v4",
   "description": "腾讯COS服务composer",
   "minimum-stability": "stable",
   "license": "proprietary",
