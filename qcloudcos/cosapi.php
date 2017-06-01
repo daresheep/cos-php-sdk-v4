@@ -60,6 +60,13 @@ class CosApi
         $this->_region = $region;
     }
 
+    /**
+     * 构造函数
+     * @param $appID string AppId
+     * @param $secretID string 身份识别Id
+     * @param $secretKey string 身份秘钥
+     * @param $bucket string 储存桶
+     */
     public function __construct($appID, $secretID, $secretKey, $bucket)
     {
         Conf::$appID = $appID;
@@ -68,6 +75,14 @@ class CosApi
         $this->bucket = $bucket;
     }
 
+    /**
+     * 上传文件
+     * @param $srcFile string 上传文件路径
+     * @param $uploadPath string 保存路径和文件名
+     * @param bool $overWrite 是否复写
+     * @param string $attribute 属性
+     * @return array|mixed
+     */
     public function FileUpload($srcFile, $uploadPath, $overWrite = false, $attribute = '')
     {
         if (!file_exists($srcFile)) {
@@ -141,7 +156,7 @@ class CosApi
 
         $sliceUploading = new SliceUploading($this->_timeout * 1000, $this->_max_retry);
 
-        for ($tryCount = 0; $tryCount < $this->_max_retry, ++$tryCount) {
+        for ($tryCount = 0; $tryCount < $this->_max_retry; ++$tryCount) {
             if ($sliceUploading->initUploading($signature, $srcFile, $url, $fileSize, $this->_slice_size, $attribute, $overWrite)) {
                 break;
             }
@@ -190,6 +205,11 @@ class CosApi
         );
     }
 
+    /**
+     * 删除文件
+     * @param $file
+     * @return array|mixed
+     */
     public function FileDelete($file)
     {
         $file = $this->normalizerPath($file);
@@ -202,8 +222,6 @@ class CosApi
         }
 
         $file = $this->cosUrlEncode($file);
-
-        $expired = time() + $this->_expired;
         $url = $this->generateResUrl($file);
         $signature = Auth::createNonreusableSignature($this->bucket, $file);
 
