@@ -8,7 +8,8 @@ namespace qcloudcos;
 /**
  * Auth class for creating reusable or nonreusable signature.
  */
-class Auth {
+class Auth
+{
     // Secret id or secret key is not valid.
     const AUTH_SECRET_ID_KEY_ERROR = -1;
 
@@ -19,10 +20,11 @@ class Auth {
      * Return the signature on success.
      * Return error code if parameter is not valid.
      */
-    public static function createReusableSignature($expiration, $bucket, $filepath = null) {
-        $appId = Conf::APP_ID;
-        $secretId = Conf::SECRET_ID;
-        $secretKey = Conf::SECRET_KEY;
+    public static function createReusableSignature($expiration, $bucket, $filepath = null)
+    {
+        $appId = Conf::$appID;
+        $secretId = Conf::$secretID;
+        $secretKey = Conf::$secretKey;
 
         if (empty($appId) || empty($secretId) || empty($secretKey)) {
             return self::AUTH_SECRET_ID_KEY_ERROR;
@@ -45,10 +47,11 @@ class Auth {
      * Return the signature on success.
      * Return error code if parameter is not valid.
      */
-    public static function createNonreusableSignature($bucket, $filepath) {
-        $appId = Conf::APP_ID;
-        $secretId = Conf::SECRET_ID;
-        $secretKey = Conf::SECRET_KEY;
+    public static function createNonreusableSignature($bucket, $filepath)
+    {
+        $appId = Conf::$appID;
+        $secretId = Conf::$secretID;
+        $secretKey = Conf::$secretKey;
 
         if (empty($appId) || empty($secretId) || empty($secretKey)) {
             return self::AUTH_SECRET_ID_KEY_ERROR;
@@ -68,7 +71,8 @@ class Auth {
      * Return error code if parameter is not valid.
      */
     private static function createSignature(
-            $appId, $secretId, $secretKey, $expiration, $bucket, $fileId) {
+        $appId, $secretId, $secretKey, $expiration, $bucket, $fileId)
+    {
         if (empty($secretId) || empty($secretKey)) {
             return self::AUTH_SECRET_ID_KEY_ERROR;
         }
@@ -77,7 +81,7 @@ class Auth {
         $random = rand();
         $plainText = "a=$appId&k=$secretId&e=$expiration&t=$now&r=$random&f=$fileId&b=$bucket";
         $bin = hash_hmac('SHA1', $plainText, $secretKey, true);
-        $bin = $bin.$plainText;
+        $bin = $bin . $plainText;
 
         $signature = base64_encode($bin);
 
