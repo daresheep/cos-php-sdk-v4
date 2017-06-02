@@ -7,16 +7,17 @@
 目前主要实现了对象化调用. 具体代码如下:
 
 
-`<?php
+`<?php`
 
-use qcloudcos\Cosapi;
+`use qcloudcos\Cosapi;`
 
 
-$api = new Cosapi($appID, $secretID, $secretKey, $bucket);
+`$api = new Cosapi($appID, $secretID, $secretKey, $bucket);`
 
-//上传文件
-$api->FileUpload($file,$key);
-//删除文件
-$api->FileDelete($key);
+`//上传文件`
 
-`
+`$api->FileUpload($file,$key);`
+
+`//删除文件`
+
+`$api->FileDelete($key);`
